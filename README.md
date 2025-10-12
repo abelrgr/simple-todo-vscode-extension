@@ -46,3 +46,7 @@ Be concise in PR descriptions and follow existing code style.
 
 - Tasks are stored in workspace state.
 - Use export/import to backup or move tasks between workspaces.
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE.md` for details.
