@@ -1,0 +1,65 @@
+name: Build and publish VSIX
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read-version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read package version
+        id: read-version
+        run: |
+          node -e "console.log(require('./package.json').version)" > .version
+          echo "::set-output name=version::$(cat .version)"
+
+      - name: Build (compile)
+        run: npm run compile
+
+      - name: Package VSIX
+        run: npx vsce package --no-dependencies
+
+      - name: Create GitHub release and upload VSIX
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.read-version.outputs.version }}
+          name: v${{ steps.read-version.outputs.version }}
+          body: Release v${{ steps.read-version.outputs.version }} - packaged VSIX
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload VSIX to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: simple-todo-vscode-extension-${{ steps.read-version.outputs.version }}.vsix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Optionally publish to VS Code Marketplace
+        if: secrets.VSCE_PAT != ''
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.VSCE_PAT }}" > .npmrc
+          npx vsce publish -p ${{ secrets.VSCE_PAT }} --packagePath simple-todo-vscode-extension-${{ steps.read-version.outputs.version }}.vsix
