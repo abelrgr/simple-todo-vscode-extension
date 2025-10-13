@@ -23,7 +23,7 @@
         {
           "id": "simpleTodo",
           "title": "Todos",
-          "icon": "media/checklist.svg"
+          "icon": "media/checklist.png"
         }
       ]
     },
@@ -33,12 +33,12 @@
           "type": "webview",
           "id": "simpleTodoView",
           "name": "Todos",
-          "icon": "media/checklist.svg"
+          "icon": "media/checklist.png"
         }
       ]
     },
     "commands": [
-        {
+      {
         "command": "simpleTodo.addTask",
         "title": "simple-todo-vscode-extension: Add Task"
       },
@@ -75,6 +75,12 @@
       "properties": {}
     }
   },
+  "activationEvents": [
+    "onView:simpleTodoView",
+    "onCommand:simpleTodo.addTask",
+    "onCommand:simpleTodo.importTasks",
+    "onCommand:simpleTodo.exportTasks"
+  ],
   "scripts": {
     "compile": "npm run bundle:webview && tsc -p ./",
     "bundle:webview": "node ./scripts/build-webview.js",
