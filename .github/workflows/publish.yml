@@ -63,3 +63,10 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.VSCE_PAT }}" > .npmrc
           npx vsce publish -p ${{ secrets.VSCE_PAT }} --packagePath simple-todo-vscode-extension-${{ steps.read-version.outputs.version }}.vsix
+
+      - name: Optionally publish to Open VSX
+        if: secrets.OPEN_VSX_TOKEN != ''
+        run: |
+          # install the open-vsx CLI and publish
+          npm install --no-save @open-vsx/cli
+          npx ovsx publish --pat ${{ secrets.OPEN_VSX_TOKEN }} --packagePath simple-todo-vscode-extension-${{ steps.read-version.outputs.version }}.vsix
