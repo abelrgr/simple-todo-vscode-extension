@@ -59,6 +59,9 @@
       "properties": {}
     }
   },
+  "activationEvents": [
+    "onView:simpleTodoView"
+  ],
   "scripts": {
     "compile": "npm run bundle:webview && tsc -p ./",
     "bundle:webview": "node ./scripts/build-webview.js",
