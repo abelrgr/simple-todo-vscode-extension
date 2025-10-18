@@ -1,8 +1,8 @@
 {
   "name": "simple-todo-vscode-extension",
-  "displayName": "simple-todo-vscode-extension",
+  "displayName": "Simple Todo",
   "description": "Track workspace-scoped tasks with priorities, tags, filters, and JSON import/export.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "abelrgr",
   "license": "MIT",
   "repository": {
@@ -22,7 +22,7 @@
       "activitybar": [
         {
           "id": "simpleTodo",
-          "title": "Todos",
+          "title": "Simple Todo",
           "icon": "media/checklist.png"
         }
       ]
@@ -32,7 +32,7 @@
         {
           "type": "webview",
           "id": "simpleTodoView",
-          "name": "Todos",
+          "name": "Simple Todo",
           "icon": "media/checklist.png"
         }
       ]
@@ -40,47 +40,25 @@
     "commands": [
       {
         "command": "simpleTodo.addTask",
-        "title": "simple-todo-vscode-extension: Add Task"
+        "title": "Simple Todo: Add Task"
       },
       {
         "command": "simpleTodo.importTasks",
-        "title": "simple-todo-vscode-extension: Import from JSON"
+        "title": "Simple Todo: Import from JSON"
       },
       {
         "command": "simpleTodo.exportTasks",
-        "title": "simple-todo-vscode-extension: Export to JSON"
+        "title": "Simple Todo: Export to JSON"
       }
     ],
     "menus": {
-      "view/title": [
-        {
-          "command": "simpleTodo.addTask",
-          "when": "view == simpleTodoView",
-          "group": "navigation@0"
-        },
-        {
-          "command": "simpleTodo.importTasks",
-          "when": "view == simpleTodoView",
-          "group": "navigation@5"
-        },
-        {
-          "command": "simpleTodo.exportTasks",
-          "when": "view == simpleTodoView",
-          "group": "navigation@6"
-        }
-      ]
+      
     },
     "configuration": {
       "title": "Simple Todos",
       "properties": {}
     }
   },
-  "activationEvents": [
-    "onView:simpleTodoView",
-    "onCommand:simpleTodo.addTask",
-    "onCommand:simpleTodo.importTasks",
-    "onCommand:simpleTodo.exportTasks"
-  ],
   "scripts": {
     "compile": "npm run bundle:webview && tsc -p ./",
     "bundle:webview": "node ./scripts/build-webview.js",

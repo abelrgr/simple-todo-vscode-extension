@@ -1,52 +1,30 @@
-# simple-todo-vscode-extension
+# Simple Todo
 
-Lightweight VS Code extension for workspace-scoped todos to have a quick overview of pending tasks for the current project/workspace/repo.
+Quick and lightweight todo list for VS Code. Keep track of your tasks without leaving your editor.
 
-## Quick start
+## Features
 
-1. npm install
-2. npm run compile
-3. Open in VS Code and press F5
+✅ **Add tasks quickly** — Create todos with priorities (high, medium, low)  
+🏷️ **Organize with tags** — Filter and group tasks by custom tags  
+🔍 **Search and filter** — Find tasks instantly by text, status, or priority  
+📅 **Set due dates** — Track deadlines for your tasks  
+💾 **Export/Import** — Backup or share your tasks as JSON  
+🗑️ **Clear completed** — Remove finished tasks with one click  
 
-## Main commands
+## Usage
 
-- Add Task — create a task
-- Import from JSON — load tasks from JSON
-- Export to JSON — save tasks to JSON
+1. Open the **Simple Todo** panel from the activity bar
+2. Click **+ Add** to add a new task
+3. Set priority, add tags, and optionally a due date
+4. Mark tasks as complete by clicking the checkbox
+5. Use filters to focus on what matters
 
-## Contributing
+## Commands
 
-Want to help? Short guide:
-
-1. Fork the repo on GitHub and clone it locally.
-2. Create a topic branch: `git checkout -b feature/my-change`.
-3. Install and build locally, run lint/tests:
-
-```cmd
-git clone https://github.com/abelrgr/simple-todo-vscode-extension.git
-cd simple-todo-vscode-extension
-git checkout -b feature/my-change
-npm install
-npm run compile
-npm run lint
-npm test
-```
-
-4. Commit cleanly, push your branch and open a Pull Request describing the change.
-5. Add tests for new behavior and update the README if needed.
-
-Be concise in PR descriptions and follow existing code style.
-
-## JSON export/import
-
-- Export: saves a JSON bundle with `pending` and `completed` arrays.
-- Import: accepts the same bundle or a legacy `tasks` array and replaces workspace tasks.
-
-## Notes
-
-- Tasks are stored in workspace state.
-- Use export/import to backup or move tasks between workspaces.
+- `Simple Todo: Add Task` — Create a new task
+- `Simple Todo: Import from JSON` — Load tasks from a file
+- `Simple Todo: Export to JSON` — Save your tasks
 
 ## License
 
-This project is licensed under the MIT License. See `LICENSE.md` for details.
+MIT License
