@@ -40,9 +40,9 @@ declare const acquireVsCodeApi: () => VsCodeApi;
 const vscode = acquireVsCodeApi();
 
 const PRIORITY_LABELS: Record<TaskPriority, string> = {
-  high: "High",
-  medium: "Medium",
-  low: "Low",
+  high: "🔴 High",
+  medium: "🟡 Medium",
+  low: "🟢 Low",
 };
 
 const PRIORITY_ORDER: Record<TaskPriority, number> = {
@@ -165,13 +165,12 @@ function render() {
   appElement.innerHTML = `
     <div class="container">
       <header class="header">
+        <div class="logo">🗒️ Simple Todo</div>
         <div class="search-container">
-          <input id="search-input" type="search" placeholder="Search tasks" value="${filters.searchText ?? ""}" />
+          <input id="search-input" type="search" placeholder="🔍 Search tasks..." value="${filters.searchText ?? ""}" />
         </div>
         <div class="header-actions">
-          <button id="add-task-btn" class="primary">Add task</button>
-          <button id="import-btn">Import</button>
-          <button id="export-btn">Export</button>
+          <button id="add-task-btn" class="primary">➕ Add</button>
         </div>
       </header>
       <section class="filters ${filtersCollapsed ? "collapsed" : ""}">
@@ -183,16 +182,16 @@ function render() {
             aria-expanded="${filtersCollapsed ? "false" : "true"}"
             aria-controls="filters-body"
             data-collapsed="${filtersCollapsed ? "true" : "false"}"
-          >${filtersCollapsed ? "Show filters" : "Hide filters"}</button>
+          >${filtersCollapsed ? "Show" : "Hide"}</button>
         </div>
         <div id="filters-body" class="filters-body">
           <div class="filter-group">
-            <span>Status:</span>
+            <span>📊 Status:</span>
             ${renderCheckbox("status-todo", "Todo", filters.statuses?.includes("todo") ?? false)}
             ${renderCheckbox("status-completed", "Completed", filters.statuses?.includes("completed") ?? false)}
           </div>
           <div class="filter-group">
-            <span>Priority:</span>
+            <span>🎯 Priority:</span>
             ${(["high", "medium", "low"] as TaskPriority[])
               .map((priority) =>
                 renderCheckbox(
@@ -205,7 +204,7 @@ function render() {
               .join("")}
           </div>
           <div class="filter-group tags-filter">
-            <span>Tags:</span>
+            <span>🏷️ Tags:</span>
             <select id="tag-filter" multiple>
               ${state.availableTags
                 .map(
@@ -216,14 +215,14 @@ function render() {
             </select>
           </div>
           <div class="filter-actions">
-            <button id="reset-filters-btn" title="Reset filters">Reset filters</button>
+            <button id="reset-filters-btn" title="Reset filters">🔄 Reset filters</button>
           </div>
         </div>
       </section>
       <main class="board">
         <section class="column">
           <div class="column-header">
-            <h2>Todo</h2>
+            <h2>📋 Todo</h2>
             <span class="count">${todoGroups.reduce<number>((count, list) => count + list.tasks.length, 0)}</span>
           </div>
           <div class="priority-grid">
@@ -258,13 +257,17 @@ function render() {
             </div>
             <button id="clear-completed-btn" title="Remove all completed tasks" ${
               completedTasks.length ? "" : "disabled"
-            }>Clear completed</button>
+            }>🗑️</button>
           </div>
           <div class="task-list completed" data-status="completed">
-            ${completedTasks.map(renderTaskCard).join("") || emptyState("No completed tasks yet.")}
+            ${completedTasks.map(renderTaskCard).join("") || emptyState("🎉 No completed tasks yet")}
           </div>
         </section>
       </main>
+      <footer class="footer-actions">
+        <button id="import-btn">📥 Import</button>
+        <button id="export-btn">📤 Export</button>
+      </footer>
     </div>
     ${renderModal()}
   `;
@@ -295,7 +298,7 @@ function renderPriorityColumn(priority: TaskPriority, tasks: Task[]) {
         <span class="count">${tasks.length}</span>
       </div>
       <div class="task-list" data-status="todo" data-priority="${priority}">
-        ${tasks.map(renderTaskCard).join("") || emptyState("Drop tasks here")}
+        ${tasks.map(renderTaskCard).join("") || emptyState("📭 Drop tasks here")}
       </div>
     </div>
   `;
@@ -352,29 +355,29 @@ function renderModal() {
         <form id="task-form">
           <input type="hidden" name="taskId" />
           <div class="field">
-            <label for="task-title">Title</label>
+            <label for="task-title">📝 Title</label>
             <input id="task-title" name="title" type="text" required maxlength="120" />
           </div>
           <div class="field">
-            <label for="task-description">Description</label>
+            <label for="task-description">💬 Description</label>
             <textarea id="task-description" name="description" rows="3" maxlength="500"></textarea>
           </div>
           <div class="grid">
             <div class="field">
-              <label for="task-priority">Priority</label>
+              <label for="task-priority">🎯 Priority</label>
               <select id="task-priority" name="priority">
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
+                <option value="high">🔴 High</option>
+                <option value="medium">🟡 Medium</option>
+                <option value="low">🟢 Low</option>
               </select>
             </div>
             <div class="field">
-              <label for="task-due-date">Due date</label>
+              <label for="task-due-date">📅 Due date</label>
               <input id="task-due-date" name="dueDate" type="date" />
             </div>
           </div>
           <div class="field">
-            <label for="task-tags">Tags (comma separated)</label>
+            <label for="task-tags">🏷️ Tags (comma separated)</label>
             <input id="task-tags" name="tags" type="text" placeholder="productivity, planning" />
           </div>
           <div class="actions">
